@@ -1,0 +1,218 @@
+﻿@model AirTechTechnicalTest.Models.HomeSearching
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<!-- Header Area End -->
+<!-- Breadcromb Area Start -->
+<section class="royal-breadcromb-area section_50">
+    <div class="breadcromb_overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="breadcromb-left">
+                    <h3>property grid view</h3>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="breadcromb-right">
+                    <ul>
+                        <li><a href="index.html"><i class="fa fa-home"></i>home</a></li>
+                        <li>/</li>
+                        <li>properties</li>
+                        <li>/</li>
+                        <li>Grid full width</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcromb Area End -->
+<!-- Search Property Area Start -->
+<section class="royal-property-listing-grid-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="search-property">
+                    <div class="row">
+                        <form id="myForm">
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    @Html.TextBoxFor(model => model.Office, new { @id = "Office", @placeholder = "Keyword (e.g. 'office')", @name = "location" })
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    <div class="intro">
+                                        @*<select>
+                                                <option class="active">Location</option>
+                                                <option>Australia</option>
+                                                <option>Japan</option>
+                                                <option>Italy</option>
+                                                <option>Bangladesh</option>
+                                                <option>China</option>
+                                                <option>India</option>
+                                            </select>*@
+
+                                        @Html.DropDownListFor(model => model.LocationId, ViewBag.CountryList as SelectList, "--Select Location--", new { @id = "LocationId" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    @*@Html.TextBoxFor(model => model.Area, new { @id = "minarea", @placeholder = "Min area (sqft)", @name = "minarea", @type = "number" })*@
+
+                                    <input type="number" placeholder="Min area (sqft)" name="minarea">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    @*@Html.TextBoxFor(model => model.Area, new { @id = "maxarea", @placeholder = "Max area (sqft)", @name = "maxarea" ,@type="number" })*@
+                                    <input type="number" placeholder="Max area (sqft)" name="maxarea">
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    @Html.TextBoxFor(model => model.Bed, new { @id = "Min Beds", @placeholder = "Min Beds", @name = "minbeds" })
+
+                                    @*<input type="text" placeholder="Min Beds" name="minbeds">*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property">
+                                    @Html.TextBoxFor(model => model.Baths, new { @id = "Min Baths", @placeholder = "Min Baths", @name = "minbath" })
+
+                                    @*<input type="text" placeholder="Min Baths" name="minbath">*@
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property range">
+                                    <label class="pull-left">Price:</label>
+                                    <div class="price home-price">
+                                        <span>$</span>
+                                        <div class="leftLabel"></div>
+                                        <span>- $</span>
+                                        <div class="rightLabel"></div>
+                                    </div>
+                                </div>
+                                @*<div data-range_min="0" data-range_max="15000" data-cur_min="0" data-cur_max="15000" class="nstSlider">
+                                        <div class="bar"></div>
+                                        <div class="leftGrip"></div>
+                                        <div class="rightGrip"></div>
+                                    </div>*@
+                                <div>
+                                    <input type="range" min="0" max="100" onchange="updateMinInput(this.value);"> <br />
+                                    <input type="range" min="0" max="100" onchange="updateMaxInput(this.value);">
+                                    <br />
+                                    <input type="number" name="minPrice" id="minValue" min="0" maxlength="6" max="999999" value="00" size="6">
+                                    <input type="number" name="maxPrice" id="maxValue" min="0" maxlength="6" max="999999" value="00" size="6">    <br /><br />
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="single-search-property button">
+                                    <button id="btnSubmit" type="button">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Search Property Area End -->
+<!-- Listing Sidebar Area Start -->
+<section class="royal-listing-sidebar-area section_100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="listing-property-right">
+                    <div class="listing-ordering">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="shorting-left">
+                                    <p>Showing 1–6 of 7 results</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6">
+                                <div class="shorting-right">
+                                    <select class="orderby" name="orderby">
+                                        <option value="0" selected>Default shorting</option>
+                                        <option value="1">short by rating </option>
+                                        <option value="2">short by popularity </option>
+                                        <option value="3">short by popularity </option>
+                                        <option value="4">short by price:high to low</option>
+                                        <option value="5">short by price:low to high</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="listin-item" id="partialView">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="pagination-box">
+                                <ul class="pagination">
+                                        <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                                        <li><a href="#">1</a></li>
+                                        <li class="active"><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                                    </ul>
+                                @*@if (ViewBag.filterByPrice == true)
+                                    {
+                                        @Html.PagedListPager(Model, page => Url.Action("FilterByPrice", new { minPrice = Request.QueryString["minPrice"], maxPrice = Request.QueryString["maxPrice"], page })
+                                     , new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded })}*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    function updateMinInput(val) {
+        document.getElementById('minValue').value = 00;
+        document.getElementById('minValue').value = val * 10;
+    }
+    function updateMaxInput(val) {
+        document.getElementById('maxValue').value = 00;
+        document.getElementById('maxValue').value = val * 100;
+    }
+</script>
+
+<script>
+    $("#btnSubmit").click(function () {
+ 
+
+
+        var myformdata = $("form").serialize();
+        $.ajax({
+            type: "GET",
+            url: "/DetailSearch/FilterByPrice",
+            data: 
+             myformdata
+            ,
+            success: function (data) {
+
+                //console.log("aaagay");
+                $('#partialView').html(data);
+                //$("#MyModal").modal("hide");
+            }
+        })
+    });
+
+</script>
