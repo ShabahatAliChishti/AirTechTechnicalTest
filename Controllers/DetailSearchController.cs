@@ -5,27 +5,30 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using AirTechTechnicalTest.ViewModels;
+
 namespace AirTechTechnicalTest.Controllers
 {
     public class DetailSearchController : Controller
     {
         AirTechTechnicalTestEntities db = new AirTechTechnicalTestEntities();
+
+        DAL bm = new DAL();
         // GET: DetailSearch
+
         public ActionResult Index()
         {
-            List<Location> CountryList = db.Locations.ToList();
+            List<Location> CountryList = bm.locationlist();
             ViewBag.CountryList = new SelectList(CountryList, "LocationId", "LocationName");
             return View();
         }
 
 
-        //[HttpPost]
-        public ActionResult FilterByPrice(HomeSearching model,int minPrice,int maxPrice,double maxarea,double minarea)
+        
+
+        public ActionResult FilterHome(HomeSearchingModel model,int minPrice,int maxPrice,double maxarea,double minarea)
         {
-           
-            ViewBag.filterByPrice = true;
-            var filterHome = db.HomeSearchings.Where(x => x.Price >= minPrice && x.Price <= maxPrice&& x.Area >= minarea && x.Area <=maxarea && x.LocationId==model.LocationId&&x.Office==model.Office&&x.Bed>=model.Bed&&x.Baths>=model.Baths).ToList();
-            //return View("Products", filterProducts.ToPagedList(page ?? 1, 9));
+            var filterHome = bm.findhome(model, minPrice, maxPrice,  maxarea,  minarea);
             return PartialView(@"~/Views/Shared/_Home.cshtml", filterHome);
 
         }

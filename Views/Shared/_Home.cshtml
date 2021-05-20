@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<AirTechTechnicalTest.Models.HomeSearching>
 
-
-@foreach (var home in Model)
+@if (Model.Count() > 0)
 {
+
+    foreach (var home in Model)
+    {
         <div class="col-md-4">
             <div class="single-latest-properties">
                 <div class="property-img">
@@ -32,10 +34,24 @@
                 <div class="property-text">
                     <h3><a href="#">@home.Office</a></h3>
                     <div class="pro-details-price">
-                        <p>@home.Price</p>
+                        <p>@home.Price (USD)</p>
                         <a href="#">More Details</a>
                     </div>
                 </div>
             </div>
         </div>
+
+    }
+            }
+            else
+            {
+<div class="col-md-4">
+    @*alert("No Data is Avaiable</p>*@
+
+    <script>/*alert("No Data is Avaiable");*/
+        swal("No Data is Available", "Try Again", "error");
+
+    </script>
+
+</div>
         }

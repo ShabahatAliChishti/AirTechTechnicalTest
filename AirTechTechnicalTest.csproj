@@ -139,6 +139,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DAL.cs" />
     <Compile Include="Models\HomeSearchDb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -161,6 +162,8 @@
       <DependentUpon>HomeSearchDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\HomeSearchingModel.cs" />
+    <Compile Include="ViewModels\locationModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\css\animate.min.css" />

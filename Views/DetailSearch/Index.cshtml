@@ -1,8 +1,14 @@
-﻿@model AirTechTechnicalTest.Models.HomeSearching
+﻿@model AirTechTechnicalTest.ViewModels.HomeSearchingModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 <!-- Header Area End -->
 <!-- Breadcromb Area Start -->
 <section class="royal-breadcromb-area section_50">
@@ -36,10 +42,17 @@
             <div class="col-md-12">
                 <div class="search-property">
                     <div class="row">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
                         <form id="myForm">
+
                             <div class="col-md-3">
                                 <div class="single-search-property">
+
                                     @Html.TextBoxFor(model => model.Office, new { @id = "Office", @placeholder = "Keyword (e.g. 'office')", @name = "location" })
+
+                                    @Html.ValidationMessageFor(model => model.Office, "", new { @class = "text-danger" })
+
 
                                 </div>
                             </div>
@@ -47,17 +60,17 @@
                                 <div class="single-search-property">
                                     <div class="intro">
                                         @*<select>
-                                                <option class="active">Location</option>
-                                                <option>Australia</option>
-                                                <option>Japan</option>
-                                                <option>Italy</option>
-                                                <option>Bangladesh</option>
-                                                <option>China</option>
-                                                <option>India</option>
-                                            </select>*@
+                            <option class="active">Location</option>
+                            <option>Australia</option>
+                            <option>Japan</option>
+                            <option>Italy</option>
+                            <option>Bangladesh</option>
+                            <option>China</option>
+                            <option>India</option>
+                        </select>*@
 
                                         @Html.DropDownListFor(model => model.LocationId, ViewBag.CountryList as SelectList, "--Select Location--", new { @id = "LocationId" })
-
+                                        @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
@@ -65,26 +78,27 @@
                                 <div class="single-search-property">
                                     @*@Html.TextBoxFor(model => model.Area, new { @id = "minarea", @placeholder = "Min area (sqft)", @name = "minarea", @type = "number" })*@
 
-                                    <input type="number" placeholder="Min area (sqft)" name="minarea">
+                                    <input type="number" placeholder="Min area (sqft)" name="minarea" id="minarea">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="single-search-property">
                                     @*@Html.TextBoxFor(model => model.Area, new { @id = "maxarea", @placeholder = "Max area (sqft)", @name = "maxarea" ,@type="number" })*@
-                                    <input type="number" placeholder="Max area (sqft)" name="maxarea">
+                                    <input type="number" placeholder="Max area (sqft)" name="maxarea" id="maxarea">
 
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="single-search-property">
-                                    @Html.TextBoxFor(model => model.Bed, new { @id = "Min Beds", @placeholder = "Min Beds", @name = "minbeds" })
-
+                                    @Html.TextBoxFor(model => model.Bed, new { @id = "Min Beds", @placeholder = "Min Beds", @name = "minbeds", @type = "number", @min = "0" })
+                                    @Html.ValidationMessageFor(model => model.Bed, "", new { @class = "text-danger" })
                                     @*<input type="text" placeholder="Min Beds" name="minbeds">*@
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="single-search-property">
-                                    @Html.TextBoxFor(model => model.Baths, new { @id = "Min Baths", @placeholder = "Min Baths", @name = "minbath" })
+                                    @Html.TextBoxFor(model => model.Baths, new { @id = "Min Baths", @placeholder = "Min Baths", @name = "minbath", @type = "number", @min = "0" })
+                                    @Html.ValidationMessageFor(model => model.Baths, "", new { @class = "text-danger" })
 
                                     @*<input type="text" placeholder="Min Baths" name="minbath">*@
                                 </div>
@@ -100,10 +114,10 @@
                                     </div>
                                 </div>
                                 @*<div data-range_min="0" data-range_max="15000" data-cur_min="0" data-cur_max="15000" class="nstSlider">
-                                        <div class="bar"></div>
-                                        <div class="leftGrip"></div>
-                                        <div class="rightGrip"></div>
-                                    </div>*@
+                    <div class="bar"></div>
+                    <div class="leftGrip"></div>
+                    <div class="rightGrip"></div>
+                </div>*@
                                 <div>
                                     <input type="range" min="0" max="100" onchange="updateMinInput(this.value);"> <br />
                                     <input type="range" min="0" max="100" onchange="updateMaxInput(this.value);">
@@ -163,14 +177,14 @@
                         <div class="col-md-12">
                             <div class="pagination-box">
                                 <ul class="pagination">
-                                        <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                        <li><a href="#">1</a></li>
-                                        <li class="active"><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                    </ul>
+                                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li class="active"><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+                                </ul>
                                 @*@if (ViewBag.filterByPrice == true)
                                     {
                                         @Html.PagedListPager(Model, page => Url.Action("FilterByPrice", new { minPrice = Request.QueryString["minPrice"], maxPrice = Request.QueryString["maxPrice"], page })
@@ -183,36 +197,48 @@
         </div>
     </div>
 </section>
-<script type="text/javascript">
-    function updateMinInput(val) {
-        document.getElementById('minValue').value = 00;
-        document.getElementById('minValue').value = val * 10;
-    }
-    function updateMaxInput(val) {
-        document.getElementById('maxValue').value = 00;
-        document.getElementById('maxValue').value = val * 100;
-    }
-</script>
-
+@*<script type="text/javascript">*@
 <script>
-    $("#btnSubmit").click(function () {
- 
+        function updateMinInput(val) {
+            document.getElementById('minValue').value = 00;
+            document.getElementById('minValue').value = val * 10;
+        }
+        function updateMaxInput(val) {
+            document.getElementById('maxValue').value = 00;
+            document.getElementById('maxValue').value = val * 100;
+        }
+    @*</script>*@
 
-
-        var myformdata = $("form").serialize();
-        $.ajax({
-            type: "GET",
-            url: "/DetailSearch/FilterByPrice",
-            data: 
-             myformdata
-            ,
-            success: function (data) {
-
-                //console.log("aaagay");
-                $('#partialView').html(data);
-                //$("#MyModal").modal("hide");
+    //<script>
+        $("#btnSubmit").click(function () {
+            var LocationId = document.getElementById("LocationId");
+            var LocationIdText = LocationId.options[LocationId.selectedIndex].text;
+            if ($("#Office").val() == "" || $("#minarea").val() == "" || $("#maxarea").val() == "" || $("#Min Beds").val() == "" || $("#Min Baths").val() == "" || LocationIdText == "--Select Location--") {
+                swal("Form can't be empty", "Try To Fill", "error");
+                return false;
             }
-        })
-    });
+
+
+            else {
+
+                    var myformdata = $("form").serialize();
+                    $.ajax({
+                        type: "GET",
+                        url: "/DetailSearch/FilterHome",
+                        data:
+                            myformdata
+                        ,
+                        success: function (data) {
+                         
+                                //console.log("aaagay");
+                                $('#partialView').html(data);
+                                //$("#MyModal").modal("hide");
+                       
+
+                        }
+                    })
+                }
+
+        });
 
 </script>
